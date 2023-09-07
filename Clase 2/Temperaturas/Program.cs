@@ -56,18 +56,20 @@ namespace Temperaturas
           contadorTemps++;
           acumuladorTemps += temp;
 
-          if (temp > 40)
-          {
-            diaCaluroso = true;
-          }
-          else if (temp >= 20)
+          
+          if (temp >= 20)
           {
             contadorCalido++;
             acumuladorCalido += temp;
+
+            if (temp > 40)
+            {
+              diaCaluroso = true;
+            }
           }
+          // Rango de -20 a 19
           else
           {
-
             if (temp < 0)
             {
               contadorBajoCero++;
