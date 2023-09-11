@@ -4,15 +4,17 @@ namespace Program
 {
   public record Punto(float X, float Y)
   {
-    public double DistanciaAlOrigen()
+    public Punto() : this(0, 0) { }
+
+    public double DistanciaAlOrigen
     {
-      return Math.Round(Math.Sqrt(X * X + Y * Y), 2);
+      get => Math.Round(Math.Sqrt(X * X + Y * Y), 2);
     }
 
-    public double DistanciaAPunto(float x1, float y1)
-    {
-      return Math.Round(Math.Sqrt((X - x1) * (X - x1) + (Y - y1) * (Y - y1)), 2);
-    }
+    // public double DistanciaAPunto(float x1, float y1)
+    // {
+    //   return Math.Round(Math.Sqrt((X - x1) * (X - x1) + (Y - y1) * (Y - y1)), 2);
+    // }
 
     public double DistanciaAPunto(Punto p)
     {
@@ -29,8 +31,7 @@ namespace Program
         (1, -1) => Cuadrantes.Cuarto,
         (0, 0) => Cuadrantes.Origen,
         (_, 0) => Cuadrantes.EjeX,
-        (0, _) => Cuadrantes.EjeY,
-        _ => Cuadrantes.Error
+        _ => Cuadrantes.EjeY,
       };
     }
   }

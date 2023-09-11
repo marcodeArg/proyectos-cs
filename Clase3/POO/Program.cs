@@ -32,7 +32,7 @@ namespace Program
           float y = float.Parse(Console.ReadLine());
 
           // PRIMER PUNTO
-          Punto p = new(x, y);
+          Punto p = new(4, 7);
 
           Console.Write("\nTe gustaria compararlo con otro punto(S/N): ");
           string punto2 = Console.ReadLine().ToLower();
@@ -56,7 +56,7 @@ namespace Program
           }
 
 
-          Console.WriteLine($"Distancia entre el punto ({x}, {y}) y el origen: {p.DistanciaAlOrigen()}");
+          Console.WriteLine($"Distancia entre el punto ({x}, {y}) y el origen: {p.DistanciaAlOrigen}");
 
           if (p.Cuadrate() == Cuadrantes.EjeX || p.Cuadrate() == Cuadrantes.EjeY || p.Cuadrate() == Cuadrantes.Origen)
           {

@@ -7,9 +7,9 @@ namespace Program
     Segundo,
     Tercero,
     Cuarto,
+    Origen,
     EjeX,
     EjeY,
-    Origen,
-    Error
+
   }
 }
