@@ -6,11 +6,12 @@ namespace Program
   {
     private static void Main(string[] args)
     {
-      string msg = """
-      1. Agregar Puntos 
-      2. Salir
-      >> 
-      """;
+      string msg = @"
+===================================
+1. Agregar Puntos
+2. Salir
+===================================
+>> ";
 
       int opcion = -1;
 
@@ -21,40 +22,59 @@ namespace Program
 
         if (opcion == 1)
         {
-          try
+
+          Console.Clear();
+
+          Console.Write("\nIngrese la cordenada x: ");
+          float x = float.Parse(Console.ReadLine());
+
+          Console.Write("Ingrese la cordenada y: ");
+          float y = float.Parse(Console.ReadLine());
+
+          // PRIMER PUNTO
+          Punto p = new(x, y);
+
+          Console.Write("\nTe gustaria compararlo con otro punto(S/N): ");
+          string punto2 = Console.ReadLine().ToLower();
+
+          Console.Clear();
+
+          if (punto2 == "s")
           {
             Console.Write("\nIngrese la cordenada x: ");
-            float x = float.Parse(Console.ReadLine());
+            float x1 = float.Parse(Console.ReadLine());
+
             Console.Write("Ingrese la cordenada y: ");
-            float y = float.Parse(Console.ReadLine());
+            float y1 = float.Parse(Console.ReadLine());
 
-            Punto p = new(x, y);
+            Console.Clear();
+            // SEGUNDO PUNTO
+            Punto p2 = new(x1, y1);
 
-            Console.Write("\nTe gustaria compararlo con otro punto(S/N): ");
-
-            Console.WriteLine($"\nDistancia al origen: {p.DistanciaAlOrigen()}");
-            if (p.Cuadrate() == Cuadrantes.EjeX || p.Cuadrate() == Cuadrantes.EjeY)
-            {
-              Console.WriteLine($"El punto ({x}, {y}) se encuentra sobre el {p.Cuadrate()}");
-            }
-            else
-            {
-              Console.WriteLine($"El punto ({x}, {y}) se encuentra en el {p.Cuadrate()} cuadrante");
-            }
-
-
+            // MUESTRA DE RESULTADOS
+            Console.WriteLine($"La distancia entre los puntos ({x}, {y}) y el punto ({x1}, {y1}) es de {p.DistanciaAPunto(p2)}");
           }
-          catch (Exception)
+
+
+          Console.WriteLine($"Distancia entre el punto ({x}, {y}) y el origen: {p.DistanciaAlOrigen()}");
+
+          if (p.Cuadrate() == Cuadrantes.EjeX || p.Cuadrate() == Cuadrantes.EjeY || p.Cuadrate() == Cuadrantes.Origen)
           {
-
-            throw;
+            Console.WriteLine($"El punto ({x}, {y}) se encuentra sobre el {p.Cuadrate()}");
           }
-
-
-
-
+          else
+          {
+            Console.WriteLine($"El punto ({x}, {y}) se encuentra en el {p.Cuadrate()} cuadrante");
+          }
         }
-
+        else if (opcion == 2)
+        {
+          break;
+        }
+        else
+        {
+          Console.WriteLine("Error, ingrese una opcion valida");
+        }
       }
     }
   }

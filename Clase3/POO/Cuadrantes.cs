@@ -3,12 +3,13 @@ namespace Program
 {
   public enum Cuadrantes
   {
-    Primero,
+    Primer,
     Segundo,
     Tercero,
     Cuarto,
     EjeX,
     EjeY,
+    Origen,
     Error
   }
 }
