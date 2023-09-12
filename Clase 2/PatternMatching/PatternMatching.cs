@@ -15,5 +15,9 @@ namespace Patrones
 
             return "No soy un vector";
         }
+
+
+
+        public static string ObtenerDeposito()
     }
 }

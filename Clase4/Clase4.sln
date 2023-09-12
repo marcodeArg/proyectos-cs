@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ascensor", "Ascensor\Ascensor.csproj", "{0235139B-D30F-49C3-B203-A3D70D345B1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personas", "Personas\Personas.csproj", "{A38990CB-4BCA-4588-B139-55FD765F90BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Partido", "Partido\Partido.csproj", "{670E0834-A8B3-41DF-8842-D86D853CE1DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{0235139B-D30F-49C3-B203-A3D70D345B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0235139B-D30F-49C3-B203-A3D70D345B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0235139B-D30F-49C3-B203-A3D70D345B1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A38990CB-4BCA-4588-B139-55FD765F90BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A38990CB-4BCA-4588-B139-55FD765F90BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A38990CB-4BCA-4588-B139-55FD765F90BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A38990CB-4BCA-4588-B139-55FD765F90BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{670E0834-A8B3-41DF-8842-D86D853CE1DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{670E0834-A8B3-41DF-8842-D86D853CE1DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{670E0834-A8B3-41DF-8842-D86D853CE1DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{670E0834-A8B3-41DF-8842-D86D853CE1DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

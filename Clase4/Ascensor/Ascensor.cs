@@ -2,46 +2,23 @@ namespace Ascensor
 {
   class Ascensor
   {
-
-    // var cant maxPersonas, pisoMax, pisoMin, pisoActual, pasajeros
-    // metodo Desplazarse 2. y cambiar la variable piso actual a el piso ingresado
-    //      
-    //
-    //  metodo SubirPersonas 3. y sumarle a la variable pasajeros
-    //     
-    //  metodo BajarPersonas 4. y restarle a la variable pasajeros
-    //      
-    //
-    //
-    //
-    // metodo auxiliares 
-    // 2.Validar Piso -> verificar si el piso ingresado es correcto (bool)
-    // 3.Validar si entran los pasajaros (int - cantidad de pasajareos que entraron)
-    // 4.Validar que no se bajen menos pasajeros de los que hay y que tampoco sea menos a 0, en caso de que sea, solo poner que todos bajaron  (int - cantidad de pasajeron que salieron) 
-
-
-
-
     private int pisoActual;
-    private int pasajeros;
+    private int personas;
     private const int pisoMax = 10;
     private const int pisoMin = -2;
     private const int capacidadMax = 5;
 
     public Ascensor()
     {
-      this.pisoActual = 0;
-      this.pasajeros = 0;
+      pisoActual = 0;
+      personas = 0;
     }
-
-
 
     public void CambiarPiso(int numPiso)
     {
-      if (VerificarPiso(numPiso))
+      if (ValidarPiso(numPiso))
       {
-        this.pisoActual = numPiso;
-        Console.WriteLine($"El ascensor se encuentra en el piso {this.pisoActual} y tiene {this.personas} personas");
+        pisoActual = numPiso;
       }
       else
       {
@@ -49,50 +26,69 @@ namespace Ascensor
       }
     }
 
-    public bool SubirPersonas(int personas)
+    public void SubirPersonas(int personas)
+    {
+      if (ValidarSubidaPersonas(personas) == 0)
+      {
+        this.personas += personas;
+      }
+      else
+      {
+        Console.WriteLine($"{ValidarSubidaPersonas(personas)} personas no se pudieron subir al ascensor");
+        this.personas += personas - ValidarSubidaPersonas(personas);
+      }
+
+    }
+
+    // Devuelve la cantidad de personas que no entraron
+    private int ValidarSubidaPersonas(int personas)
     {
       if (this.personas + personas <= capacidadMax)
       {
-        Console.WriteLine($"Todas las personas subieron al ascensor. Actualmente hay {this.personas} personas");
-        return true;
+        return 0;
+      }
+
+      return this.personas + personas - capacidadMax;
+    }
+
+
+    public void BajarPersonas(int personas)
+    {
+      if (ValidarBajadaPersonas(personas) == 0)
+      {
+        this.personas -= personas;
       }
       else
       {
-        if (this.personas + personas - capacidadMax != 0)
-        {
-          Console.WriteLine($"Entraron solamente {this.personas} personas");
-          return true;
-        }
+        //                    mas por menos = menos. Puedo Hacer esto, o que el validar devuelva el valor abs.
+        this.personas -= personas + ValidarBajadaPersonas(personas);
       }
-      Console.WriteLine($"No entra nadie. El ascensor esta lleno");
-      return false;
+
     }
 
-    public bool BajarPersonas(int personas)
+    // Devuelve la cantidad de personas que no se bajaron porque no existen
+    private int ValidarBajadaPersonas(int personas)
     {
       if (this.personas - personas >= 0)
       {
-        Console.WriteLine($"Todas las personas bajaron del ascensor. Actualmente hay {this.personas} personas");
-        return true;
+        return 0;
       }
       else
       {
-        if (this.personas - personas + capacidadMax != 0)
-        {
-          Console.WriteLine($"Entraron solamente {this.personas} personas");
-          return true;
-        }
+        return this.personas - personas;
       }
-      Console.WriteLine($"No entra nadie. El ascensor esta lleno");
-      return false;
     }
 
 
-    private bool VerificarPiso(int piso)
+    private bool ValidarPiso(int piso)
     {
       return piso > pisoMin && piso < pisoMax;
     }
 
+    public override string ToString()
+    {
+      return $"Actualmente hay {this.personas} personas en el ascensor y se encuentra en el piso {pisoActual}";
+    }
 
   }
 }
