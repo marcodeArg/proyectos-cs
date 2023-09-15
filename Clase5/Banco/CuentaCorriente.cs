@@ -6,7 +6,7 @@ namespace Banco
 
         public CuentaCorriente(int numero, string nombre, decimal saldo, decimal acuerdo) : base(numero, nombre, saldo)
         {
-            Acuerdo = acuerdo;
+            Acuerdo = acuerdo * -1;
         }
 
         public override void Extraer(decimal saldo)

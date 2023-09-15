@@ -4,49 +4,21 @@
     {
         private static void Main(string[] args)
         {
-            List<Cuenta> cuentas = new List<Cuenta>();
-
-            Console.WriteLine("Desea Cargar cuentas? (s/n)");
-            string opcion = Console.ReadLine().ToLower();
-
-            while (opcion != "n")
+            List<Cuenta> cuentas = new List<Cuenta>
             {
-                Console.WriteLine("Tipo de cuenta que desea cargar: 1.Corriente 2.Ahorro");
-                string tipoCuenta = Console.ReadLine();
+                new CuentaCorriente(156156, "cc1", 1000, 200),
+                new CuentaAhorro(2424545, "ca1", 25000),
+                new CuentaCorriente(354312, "cc2", 0, 100),
+                new CuentaAhorro(548751, "ca2", 150),
+                new CuentaCorriente(345541, "cc3", 10000, 890),
+                new CuentaAhorro(3782135, "ca3", 1980),
+                new CuentaCorriente(154254, "cc4", 230, 100),
+                new CuentaAhorro(13784, "ca4", 6500),
+                new CuentaCorriente(735431, "cc5", 560, 125),
+                new CuentaAhorro(9434345, "ca15", 11230)
+            };
 
 
-                if (tipoCuenta == "1")
-                {
-                    Console.Write("\nLegajo: ");
-                    int legajo = Convert.ToInt32(Console.ReadLine());
-                    Console.Write("Nombre: ");
-                    string nombre = Console.ReadLine();
-                    Console.Write("Saldo: ");
-                    decimal saldo = Convert.ToDecimal(Console.ReadLine());
-                    Console.Write("Limite: ");
-                    decimal limite = Convert.ToDecimal(Console.ReadLine());
-
-                    cuentas.Add(new CuentaCorriente(legajo, nombre, saldo, limite * -1));
-                }
-                else if (tipoCuenta == "2")
-                {
-                    Console.Write("\nLegajo: ");
-                    int legajo = Convert.ToInt32(Console.ReadLine());
-                    Console.Write("Nombre: ");
-                    string nombre = Console.ReadLine();
-                    Console.Write("Saldo: ");
-                    decimal saldo = Convert.ToDecimal(Console.ReadLine());
-
-                    cuentas.Add(new CuentaAhorro(legajo, nombre, saldo));
-                }
-                else
-                {
-                    continue;
-                }
-
-                Console.WriteLine("Desea Cargar cuentas? (s/n)");
-                opcion = Console.ReadLine().ToLower();
-            }
 
         }
     }

@@ -16,7 +16,7 @@ namespace Empresa
                 return SueldoBase * (decimal)1.13;
             }
 
-            return SueldoBase;
+            return base.Sueldo();
         }
 
     }
