@@ -13,9 +13,5 @@ namespace Empresa
         {
             return SueldoBase + TotalVentas * (decimal)0.1;
         }
-
-
-
-
     }
 }
