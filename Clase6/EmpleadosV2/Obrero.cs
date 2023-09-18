@@ -10,7 +10,7 @@ namespace Empresa
 
         public override decimal Sueldo()
         {
-            return SueldoBase / 22 * DiasTrabajados;
+            return SueldoBase / 20 * DiasTrabajados;
         }
     }
 }

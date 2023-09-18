@@ -11,7 +11,7 @@ namespace Empresa
 
         public override decimal Sueldo()
         {
-            return SueldoBase + TotalVentas * (decimal)0.1;
+            return SueldoBase + TotalVentas * 0.1m;
         }
     }
 }

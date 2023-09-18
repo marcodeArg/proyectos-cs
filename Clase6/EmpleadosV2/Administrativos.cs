@@ -13,7 +13,7 @@ namespace Empresa
         {
             if (Presentismo)
             {
-                return SueldoBase * (decimal)1.13;
+                return SueldoBase * 1.13m;
             }
 
             return SueldoBase;
