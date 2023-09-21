@@ -1,0 +1,10 @@
+1,La Odisea,19.99,Disponible
+2,El Gran Gatsby,14.95,Extraviado
+3,1984,12.99,Prestado
+4,Don Quijote de la Mancha,22.50,Disponible
+5,Crimen y Castigo,15.75,Extraviado
+6,Los Juegos del Hambre,10.99,Disponible
+7,El Hobbit,18.25,Prestado
+8,Harry Potter y la Piedra Filosofal,16.50,Disponible
+9,Ensayos,8.99,Disponible
+10,Matar a un Ruiseñor,13.75,Extraviado
