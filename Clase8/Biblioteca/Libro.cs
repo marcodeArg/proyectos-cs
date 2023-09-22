@@ -19,15 +19,6 @@ namespace Biblioteca
       Prestamos = new List<Prestamo>();
     }
 
-    public Libro(int codigo, string titulo, decimal precioReposicion, Estado estado, List<Prestamo> prestamo)
-    {
-      Codigo = codigo;
-      Titulo = titulo;
-      PrecioReposicion = precioReposicion;
-      Estado = estado;
-      Prestamos = prestamo;
-    }
-
     public void AñadirPrestamo(Prestamo prestamo)
     {
       Prestamos.Add(prestamo);
@@ -54,7 +45,6 @@ namespace Biblioteca
 
       return libros;
     }
-
   }
 }
 
