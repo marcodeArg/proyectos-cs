@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca", "Biblioteca\Biblioteca.csproj", "{3B1A92CD-CB23-4CFD-B16B-43DCD3F2C7B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quini", "Quini\Quini.csproj", "{68F1936C-C554-45E5-B3EF-367CA2FBC62C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{3B1A92CD-CB23-4CFD-B16B-43DCD3F2C7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B1A92CD-CB23-4CFD-B16B-43DCD3F2C7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B1A92CD-CB23-4CFD-B16B-43DCD3F2C7B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68F1936C-C554-45E5-B3EF-367CA2FBC62C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68F1936C-C554-45E5-B3EF-367CA2FBC62C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68F1936C-C554-45E5-B3EF-367CA2FBC62C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68F1936C-C554-45E5-B3EF-367CA2FBC62C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
