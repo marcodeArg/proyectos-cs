@@ -1,126 +1,87 @@
-﻿
+﻿using System.Text;
+
+
 namespace Biblioteca
 {
   class Programa
   {
     private static void Main(string[] args)
     {
-      List<Libro> libros = Libro.ObtenerLibros();
-      List<Prestamo> prestamos = Prestamo.ObtenerPrestamos();
+      Biblioteca biblio = new Biblioteca();
 
-      foreach (Libro libro in libros)
+
+      // Carga de libros
+      using (StreamReader sr = new StreamReader("./libros.txt", Encoding.UTF8))
       {
-        int codigoLibro = libro.Codigo;
-
-        foreach (Prestamo prestamo in prestamos)
+        while (!sr.EndOfStream)
         {
-          // if (prestamo.CodigoLibro == codigoLibro)
-          // {
-          //   libro.AñadirPrestamo(prestamo);
-          // }
+          string[] lineaLibros = sr.ReadLine().Split(";");
+
+          int codigoLibro = Convert.ToInt32(lineaLibros[0]);
+          string titulo = lineaLibros[1];
+          decimal precioReposicion = Convert.ToDecimal(lineaLibros[2]);
+          Estado estado = (Estado)Convert.ToInt32(lineaLibros[3]);
+
+          Libro libro = new Libro(codigoLibro, titulo, precioReposicion, estado);
+
+          using (StreamReader srPrestamo = new StreamReader("./prestamos.txt", Encoding.UTF8))
+          {
+            while (!srPrestamo.EndOfStream)
+            {
+              string[] lineaPrestamo = srPrestamo.ReadLine().Split(";");
+
+              int idLibro = Convert.ToInt32(lineaPrestamo[0]);
+
+              if (idLibro == codigoLibro)
+              {
+                string nombre = lineaPrestamo[1];
+                int diasPrestado = Convert.ToInt32(lineaPrestamo[2]);
+                bool fueDevuelto = Convert.ToBoolean(lineaPrestamo[3]);
+
+                libro.AñadirPrestamo(new Prestamo(nombre, diasPrestado, fueDevuelto));
+              }
+            }
+          }
+          biblio.AgregarLibro(libro);
         }
 
-      }
 
-      Console.Clear();
+        Console.Clear();
 
-      //1. Cantidad libros por estado
-      (int disponibles, int extraviados, int prestados) estados = CantidadPorEstado(libros);
-      Console.WriteLine($"\nCantidad de libros disponibles: {estados.disponibles}");
-      Console.WriteLine($"Cantidad de libros extraviados: {estados.extraviados}");
-      Console.WriteLine($"Cantidad de libros prestados: {estados.prestados}");
+        //1. Cantidad libros por estado
+        (int disponibles, int extraviados, int prestados) estados = biblio.CantidadPorEstado();
+        Console.WriteLine($"\nCantidad de libros disponibles: {estados.disponibles}");
+        Console.WriteLine($"Cantidad de libros extraviados: {estados.extraviados}");
+        Console.WriteLine($"Cantidad de libros prestados: {estados.prestados}");
 
-      //2. Sumatoria del precio de reposición de todos los libros extraviados
-      Console.WriteLine($"\nSumatoria del precio de reposición de todos los libros extraviados: {TotalExtraviados(libros)}");
+        //2. Sumatoria del precio de reposición de todos los libros extraviados
+        Console.WriteLine($"\nSumatoria del precio de reposición de todos los libros extraviados: {biblio.TotalExtraviados()}");
 
-      //3. Nombre de todos los solicitantes de un libro en particular identificado por su título
-      Console.Write("\nIngrese el nombre del libro para saber las personas que lo solicitaron alguna vez: ");
-      string nombreLibro = Console.ReadLine();
+        //3. Nombre de todos los solicitantes de un libro en particular identificado por su título
+        Console.Write("\nIngrese el nombre del libro para saber las personas que lo solicitaron alguna vez: ");
+        string nombreLibro = Console.ReadLine();
 
-      List<string> nombres = ObtenerNombres(libros, nombreLibro);
+        List<string> nombres = biblio.ObtenerNombres(nombreLibro);
 
-      if (nombres.Count() > 0)
-      {
-        Console.WriteLine($"\nUsuarios que han solicitado el libro {nombreLibro}");
-
-        foreach (string nombre in nombres)
+        if (nombres.Count() > 0)
         {
-          Console.WriteLine($"{nombre}");
-        }
-      }
-      else
-      {
-        Console.WriteLine($"\nNingun usuario ha solicitado el libro: {nombreLibro}");
-      }
+          Console.WriteLine($"\nUsuarios que han solicitado el libro {nombreLibro}");
 
-
-      //4. Promedio de veces que fueron prestados los libros de la biblioteca
-      Console.WriteLine($"\nPromedio de prestamos {PromedioPrestamos(libros, prestamos)}");
-
-    }
-
-
-    private static (int, int, int) CantidadPorEstado(List<Libro> libros)
-    {
-
-      int disponibles = 0;
-      int extraviados = 0;
-      int prestados = 0;
-
-      foreach (Libro libro in libros)
-      {
-        if (libro.Estado == Estado.Disponible)
-        {
-          disponibles++;
-        }
-        else if (libro.Estado == Estado.Extraviado)
-        {
-          extraviados++;
+          foreach (string nombre in nombres)
+          {
+            Console.WriteLine($"{nombre}");
+          }
         }
         else
         {
-          prestados++;
+          Console.WriteLine($"\nNingun usuario ha solicitado el libro: {nombreLibro}");
         }
+
+
+        //4. Promedio de veces que fueron prestados los libros de la biblioteca
+        Console.WriteLine($"\nPromedio de prestamos {biblio.PromedioPrestamos()}");
+
       }
-
-      return (disponibles, extraviados, prestados);
-    }
-
-    private static decimal TotalExtraviados(List<Libro> libros)
-    {
-      List<Libro> librosExtraviados = libros.FindAll(x => x.Estado == Estado.Extraviado);
-      decimal sumatoria = 0;
-
-      foreach (Libro libro in librosExtraviados)
-      {
-        sumatoria += libro.PrecioReposicion;
-      }
-
-      return sumatoria;
-    }
-
-
-    private static List<string> ObtenerNombres(List<Libro> libros, string tituloLibro)
-    {
-      List<string> nombres = new List<string>();
-      Libro? libro = libros.Find(x => x.Titulo == tituloLibro);
-
-      if (libro is not null)
-      {
-        // foreach (Prestamo item in libro.Prestamos)
-        // {
-        //   nombres.Add(item.Nombre);
-        // }
-      }
-
-      return nombres;
-    }
-
-    private static decimal PromedioPrestamos(List<Libro> libros, List<Prestamo> prestamos)
-    {
-      double promedioPrestamos = (double)prestamos.Count / libros.Count;
-
-      return (decimal)promedioPrestamos;
     }
   }
 }
