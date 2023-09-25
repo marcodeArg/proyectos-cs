@@ -10,9 +10,9 @@
       "request": "launch",
       "preLaunchTask": "build",
       // Si ha cambiado las plataformas de destino, asegúrese de actualizar la ruta de acceso del programa.
-      "program": "${workspaceFolder}/Clase5/Banco/bin/Debug/net7.0/Banco.dll",
+      "program": "${workspaceFolder}/Clase8/Biblioteca/bin/Debug/net7.0/Biblioteca.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/Clase5/Banco",
+      "cwd": "${workspaceFolder}/Clase8/Biblioteca",
       // Para obtener más información sobre el campo \"consola\", consulte https://aka.ms/VSCode-CS-LaunchJson-Console
       "console": "integratedTerminal",
       "stopAtEntry": false

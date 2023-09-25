@@ -14,10 +14,10 @@ namespace Biblioteca
 
         foreach (Prestamo prestamo in prestamos)
         {
-          if (prestamo.CodigoLibro == codigoLibro)
-          {
-            libro.AñadirPrestamo(prestamo);
-          }
+          // if (prestamo.CodigoLibro == codigoLibro)
+          // {
+          //   libro.AñadirPrestamo(prestamo);
+          // }
         }
 
       }
@@ -62,16 +62,41 @@ namespace Biblioteca
 
     private static (int, int, int) CantidadPorEstado(List<Libro> libros)
     {
-      int disponibles = libros.Count(x => x.Estado == Estado.Disponible);
-      int extraviados = libros.Count(x => x.Estado == Estado.Extraviado);
-      int prestados = libros.Count(x => x.Estado == Estado.Prestado);
+
+      int disponibles = 0;
+      int extraviados = 0;
+      int prestados = 0;
+
+      foreach (Libro libro in libros)
+      {
+        if (libro.Estado == Estado.Disponible)
+        {
+          disponibles++;
+        }
+        else if (libro.Estado == Estado.Extraviado)
+        {
+          extraviados++;
+        }
+        else
+        {
+          prestados++;
+        }
+      }
 
       return (disponibles, extraviados, prestados);
     }
 
     private static decimal TotalExtraviados(List<Libro> libros)
     {
-      return libros.Where(x => x.Estado == Estado.Extraviado).Sum(x => x.PrecioReposicion);
+      List<Libro> librosExtraviados = libros.FindAll(x => x.Estado == Estado.Extraviado);
+      decimal sumatoria = 0;
+
+      foreach (Libro libro in librosExtraviados)
+      {
+        sumatoria += libro.PrecioReposicion;
+      }
+
+      return sumatoria;
     }
 
 
@@ -82,10 +107,10 @@ namespace Biblioteca
 
       if (libro is not null)
       {
-        foreach (Prestamo item in libro.Prestamos)
-        {
-          nombres.Add(item.Nombre);
-        }
+        // foreach (Prestamo item in libro.Prestamos)
+        // {
+        //   nombres.Add(item.Nombre);
+        // }
       }
 
       return nombres;

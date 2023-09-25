@@ -7,7 +7,7 @@ namespace Biblioteca
     public decimal PrecioReposicion { get; set; }
     public Estado Estado { get; set; }
 
-    public List<Prestamo> Prestamos { get; set; }
+    private List<Prestamo> Prestamos { get; }
 
     public Libro(int codigo, string titulo, decimal precioReposicion, Estado estado)
     {
@@ -23,6 +23,39 @@ namespace Biblioteca
     {
       Prestamos.Add(prestamo);
     }
+
+    public int CantidadPrestamos()
+    {
+      return Prestamos.Count;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static List<Libro> ObtenerLibros()
     {
@@ -40,6 +73,27 @@ namespace Biblioteca
           Estado estado = (Estado)Enum.Parse(typeof(Estado), lineaLibros[3]);
 
           libros.Add(new Libro(codigoLibro, titulo, precioReposicion, estado));
+
+
+          // using (StreamReader srPrestamo = new StreamReader("./prestamos.txt"))
+          // {
+          //   while (!srPrestamo.EndOfStream)
+          //   {
+          //     string[] lineaPrestamo = srPrestamo.ReadLine().Split(",");
+
+          //     int codigoLibro = Convert.ToInt32(lineaPrestamo[0]);
+          //     string nombre = lineaPrestamo[1];
+          //     int diasPrestado = Convert.ToInt32(lineaPrestamo[2]);
+          //     bool fueDevuelto = Convert.ToBoolean(lineaPrestamo[3]);
+          //     prestamos.Add(new Prestamo(codigoLibro, nombre, diasPrestado, fueDevuelto));
+          //   }
+
+          // }
+
+
+
+
+
         }
       }
 
