@@ -1,4 +1,6 @@
-﻿namespace Quijote
+﻿using System.Text.RegularExpressions;
+
+namespace Quijote
 {
   class Program
   {
@@ -13,11 +15,16 @@
       {
         while (!sr.EndOfStream)
         {
-          string[] linea = sr.ReadLine().Split(" ");
+          string linea = sr.ReadLine().ToLower();
 
-          foreach (var palabra in linea)
+          string[] palabras = Regex.Split(linea, @"[^a-zA-Z]");
+
+          foreach (string palabra in palabras)
           {
-            palabrasNoRepetidas.Add(palabra);
+            if (!string.IsNullOrEmpty(palabra))
+            {
+              palabrasNoRepetidas.Add(palabra);
+            }
           }
         }
       };
@@ -36,11 +43,7 @@
 
 
       Console.WriteLine($"Cantidad de palabras no repetidas {palabrasNoRepetidas.Count}");
-      Console.WriteLine($"Cantidad de palabras no repetidas {palabrasDiccionario.Count}");
-      Console.WriteLine($" ");
-      Console.WriteLine($" ");
-      Console.WriteLine($"Cantidad de palabras que no existen en el diccionario {palabrasNoRepetidas.Except(palabrasDiccionario).Count()}");
-
+      Console.WriteLine($"Cantidad de palabras en el diccionario {palabrasDiccionario.Count}");
       Console.WriteLine($"Cantidad de palabras que no existen en el diccionario (SortedSet){palabrasOrdenadas.Count}");
     }
   }
