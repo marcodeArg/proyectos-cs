@@ -14,5 +14,10 @@ namespace Veterinaria
       Especie = especie;
       EsHabitual = esHabitual;
     }
+
+    public override string ToString()
+    {
+      return $"{Especie} {Nombre}";
+    }
   }
 }

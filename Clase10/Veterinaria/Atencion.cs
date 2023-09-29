@@ -15,6 +15,11 @@ namespace Veterinaria
     }
     public abstract decimal ImporteACobrar();
 
+    public override string ToString()
+    {
+      return $"{Codigo}";
+    }
+
   }
 }
 

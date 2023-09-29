@@ -26,7 +26,7 @@ namespace Veterinaria
         if (atencion is AtencionMedica aten)
         {
 
-          if (aten.Mascota.Codigo == 2)
+          if (aten.Mascota.Especie == Especie.Gato)
           {
             total += atencion.ImporteACobrar();
           }
@@ -39,16 +39,16 @@ namespace Veterinaria
 
     public int CantidadAtencionesHasta(decimal importe)
     {
-      return atenciones.Count(x => 1000 >= x.Importe && x.Importe <= importe);
+      return atenciones.Count(x => 1000 <= x.Importe && x.Importe <= importe);
     }
 
-    public AtencionMedica primerAtencionMedicaGato()
+    public AtencionMedica? primerAtencionMedicaGato()
     {
       foreach (Atencion atencion in atenciones)
       {
         if (atencion is AtencionMedica aten)
         {
-          if (aten.Mascota.Codigo == 2)
+          if (aten.Mascota.Especie == Especie.Gato)
           {
             return aten;
           }

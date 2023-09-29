@@ -10,11 +10,11 @@
       "request": "launch",
       "preLaunchTask": "build",
       // Si ha cambiado las plataformas de destino, asegúrese de actualizar la ruta de acceso del programa.
-      "program": "${workspaceFolder}/Clase8/Biblioteca/bin/Debug/net7.0/Biblioteca.dll",
+      "program": "${workspaceFolder}/Clase10/Veterinaria/bin/Debug/net7.0/Veterinaria.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/Clase8/Biblioteca",
+      "cwd": "${workspaceFolder}/Clase10/Veterinaria",
       // Para obtener más información sobre el campo \"consola\", consulte https://aka.ms/VSCode-CS-LaunchJson-Console
-      "console": "integratedTerminal",
+      "console": "internalConsole",
       "stopAtEntry": false
     },
     {

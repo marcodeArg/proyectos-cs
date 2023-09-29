@@ -27,5 +27,10 @@ namespace Veterinaria
 
       return Importe;
     }
+
+    public override string ToString()
+    {
+      return $"{Mascota} - Codigo Atencion: {base.ToString()}";
+    }
   }
 }

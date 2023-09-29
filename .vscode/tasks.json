@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/Clase8/Clase8.sln",
+        "${workspaceFolder}/Clase10/Clase10.sln",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/Clase8/Clase8.sln",
+        "${workspaceFolder}/Clase10/Clase10.sln",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -33,7 +33,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/Clase8/Clase8.sln"
+        "${workspaceFolder}/Clase10/Clase10.sln"
       ],
       "problemMatcher": "$msCompile"
     }
