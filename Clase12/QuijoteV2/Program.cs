@@ -9,10 +9,10 @@ namespace Quijote
 
       HashSet<string> palabrasNoRepetidas = new();
       HashSet<string> palabrasDiccionario = new();
-      Dictionary<string, int> palabrasNoExistentes = new();
+      Dictionary<string, int> palabrasNoRepetidasTotales = new();
 
 
-
+      // cargar palabras del Libro no repetidas
       using (StreamReader sr = new("./Quijote.txt"))
       {
         while (!sr.EndOfStream)
@@ -27,17 +27,18 @@ namespace Quijote
             {
               if (palabrasNoRepetidas.Add(palabra))
               {
-                palabrasNoExistentes[palabra] = 1;
+                palabrasNoRepetidasTotales[palabra] = 1;
               }
               else
               {
-                palabrasNoExistentes[palabra]++;
+                palabrasNoRepetidasTotales[palabra]++;
               }
             }
           }
         }
       };
 
+      // palabras del Diccionario 
       using (StreamReader sr = new("./words_alpha.txt"))
       {
         while (!sr.EndOfStream)
@@ -48,52 +49,35 @@ namespace Quijote
         }
       };
 
+      // diccionario con las palabras que no existen en el Diccionario
+      Dictionary<string, int> diff = new();
 
-      foreach (var item in palabrasNoRepetidas)
+      foreach (var item in palabrasNoRepetidas.Except(palabrasDiccionario))
       {
-
+        diff[item] = palabrasNoRepetidasTotales[item];
       }
 
-      SortedSet<string> palabrasOrdenadas = new SortedSet<string>(palabrasNoRepetidas.Except(palabrasDiccionario));
 
-      //Dictionary<string, int> palabrasNoExistentes = ContarPalabrasNoExistentesEnDiccionario(palabrasNoRepetidas, palabrasDiccionario);
+      // palabras ordenadas del Libro sin repetir
+      SortedSet<string> palabrasOrdenadas = new SortedSet<string>(palabrasNoRepetidas.Except(palabrasDiccionario));
 
 
       Console.WriteLine($"Cantidad de palabras no repetidas {palabrasNoRepetidas.Count}");
       Console.WriteLine($"Cantidad de palabras en el diccionario {palabrasDiccionario.Count}");
       Console.WriteLine($"Cantidad de palabras que no existen en el diccionario (SortedSet){palabrasOrdenadas.Count}");
-      Console.WriteLine($"Cantidad de palabras que no existen en el diccionario (Dictionary){palabrasNoExistentes.Count}");
+      Console.WriteLine($"Cantidad de palabras que no existen en el diccionario Con numeros (diccionario){diff.Count}");
 
 
-      foreach (var palabra in palabrasNoExistentes)
-      {
-        if (palabra.Value > 1)
-        {
-          Console.WriteLine($"Palabra: {palabra.Key}, Cantidad de veces: {palabra.Value}");
-        }
-      }
-    }
+      // Mostrar palabras en el diccionario de las palabras del Libro que no existen en el Diccionario
+      // foreach (var palabra in diff)
+      // {
+      //   if (palabra.Value > 40)
+      //   {
+      //     Console.WriteLine($"Palabra: {palabra.Key}, Cantidad de veces: {palabra.Value}");
+      //   }
+      // }
 
-    private static Dictionary<string, int> ContarPalabrasNoExistentesEnDiccionario(HashSet<string> palabrasNoRepetidas, HashSet<string> palabrasDiccionario)
-    {
-      Dictionary<string, int> palabrasNoExistentes = new Dictionary<string, int>();
 
-      foreach (string palabra in palabrasNoRepetidas)
-      {
-        if (!palabrasDiccionario.Contains(palabra))
-        {
-          if (palabrasNoExistentes.ContainsKey(palabra))
-          {
-            palabrasNoExistentes[palabra]++;
-          }
-          else
-          {
-            palabrasNoExistentes[palabra] = 1;
-          }
-        }
-      }
-
-      return palabrasNoExistentes;
     }
   }
 }
