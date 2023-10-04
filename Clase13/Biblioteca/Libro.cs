@@ -9,6 +9,8 @@ namespace Biblioteca
 
     public List<Prestamo> Prestamos { get; }
 
+    public List<string> Solicitantes => Prestamos.Select(x => x.Nombre).ToList();
+
     public Libro(int codigo, string titulo, decimal precioReposicion, Estado estado)
     {
       Codigo = codigo;
@@ -24,10 +26,7 @@ namespace Biblioteca
       Prestamos.Add(prestamo);
     }
 
-    public int CantidadPrestamos()
-    {
-      return Prestamos.Count;
-    }
+    public int CantidadPrestamos => Prestamos.Count;
   }
 }
 

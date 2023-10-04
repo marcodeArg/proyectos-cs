@@ -79,7 +79,7 @@ namespace Biblioteca
 
 
         //4. Promedio de veces que fueron prestados los libros de la biblioteca
-        Console.WriteLine($"\nPromedio de prestamos {biblio.PromedioPrestamos()}");
+        Console.WriteLine($"\nPromedio de prestamos {biblio.PromedioPrestamos}");
 
       }
     }

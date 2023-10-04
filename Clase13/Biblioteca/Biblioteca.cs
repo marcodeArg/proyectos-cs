@@ -1,3 +1,6 @@
+using System.Linq;
+using System.Security.Cryptography;
+
 namespace Biblioteca
 {
   class Biblioteca
@@ -19,84 +22,25 @@ namespace Biblioteca
     public (int, int, int) CantidadPorEstado()
     {
 
-      int disponibles = 0;
-      int extraviados = 0;
-      int prestados = 0;
+      int[] vec = { 0, 0, 0, 0 };
+      libros.ForEach(libro => vec[(int)libro.Estado]++);
 
-      foreach (Libro libro in libros)
-      {
-        if (libro.Estado == Estado.Disponible)
-        {
-          disponibles++;
-        }
-        else if (libro.Estado == Estado.Extraviado)
-        {
-          extraviados++;
-        }
-        else
-        {
-          prestados++;
-        }
-      }
-
-      return (disponibles, extraviados, prestados);
+      return (vec[1], vec[2], vec[3]);
     }
 
     // 2.
     public decimal TotalExtraviados()
     {
-      // List<Libro> librosExtraviados = libros.FindAll(x => x.Estado == Estado.Extraviado);
-      // decimal sumatoria = 0;
-
-      // foreach (Libro libro in librosExtraviados)
-      // {
-      //   sumatoria += libro.PrecioReposicion;
-      // }
-
       return libros.Where(x => x.Estado == Estado.Extraviado).Sum(x => x.PrecioReposicion);
     }
 
     // 3.
     public List<string> ObtenerNombres(string tituloLibro)
     {
-      //List<string> nombres = new List<string>();
-      //Libro? libro = libros.Find(x => x.Titulo == tituloLibro);
-
-      // if (libro is not null)
-      // {
-      //   foreach (Prestamo item in libro.Prestamos)
-      //   {
-      //     nombres.Add(item.Nombre);
-      //   }
-      // }
-
-      List<string> nombres;
-
-      try
-      {
-        nombres = libros.FirstOrDefault(x => x.Titulo == tituloLibro).Prestamos.Select(x => x.Nombre).ToList();
-      }
-      catch (Exception)
-      {
-        nombres = new();
-      }
-
-      return nombres;
+      return libros.FirstOrDefault(x => x.Titulo == tituloLibro)?.Solicitantes ?? new List<string>();
     }
 
     // 4.
-    public decimal PromedioPrestamos()
-    {
-      int cantidadLibros = libros.Count;
-      int cantidadPrestamos = libros.Sum(x => x.CantidadPrestamos());
-
-      // foreach (Libro libro in libros)
-      // {
-      //   cantidadPrestamos += libro.CantidadPrestamos();
-      // }
-
-      return (decimal)cantidadPrestamos / cantidadLibros;
-    }
-
+    public double PromedioPrestamos => libros.Average(x => x.CantidadPrestamos);
   }
 }
