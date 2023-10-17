@@ -9,10 +9,6 @@ namespace Personas
     public static void Main()
     {
       Env.Load();
-      // SqlConnection conexion = new(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
-
-      // SqlCommand comando = conexion.CreateCommand();
-      // PoblarBD();
       string msg = """
       
       1. Insertar una persona a la base de datos
@@ -211,7 +207,10 @@ namespace Personas
     {
       Console.Write("\nIngrese el documento de la persona: ");
       int dni = Convert.ToInt32(Console.ReadLine());
+      bool encontrado = false;
 
+
+      // Verificar si existe la persona
       using (SqlConnection conexion = new(Environment.GetEnvironmentVariable("CONNECTION_STRING")))
       {
         SqlCommand comando = conexion.CreateCommand();
@@ -231,6 +230,7 @@ namespace Personas
             Console.WriteLine("Persona encontrada!");
             Console.WriteLine($"Nombre = {nom}\nApellido = {ape}\nEdad = {eda}");
 
+            encontrado = true;
           }
           else
           {
@@ -244,31 +244,33 @@ namespace Personas
         }
       }
 
-      Console.WriteLine("\nIngrese los datos nuevos");
-      Console.Write("Ingrese el nombre: ");
-      string nombre = Console.ReadLine();
-      Console.Write("Ingrese el apellido: ");
-      string apellido = Console.ReadLine();
-      Console.Write("Ingrese la edad: ");
-      int edad = Convert.ToInt32(Console.ReadLine());
-
-      using (SqlConnection conexion = new(Environment.GetEnvironmentVariable("CONNECTION_STRING")))
+      if (encontrado)
       {
-        SqlCommand comando = conexion.CreateCommand();
-        comando.CommandType = CommandType.Text;
-        comando.CommandText = $"UPDATE Personas SET nombre = '{nombre}', apellido = '{apellido}', edad = {edad} WHERE documento = {dni}";
+        Console.WriteLine("\nIngrese los datos nuevos");
+        Console.Write("Ingrese el nombre: ");
+        string nombre = Console.ReadLine();
+        Console.Write("Ingrese el apellido: ");
+        string apellido = Console.ReadLine();
+        Console.Write("Ingrese la edad: ");
+        int edad = Convert.ToInt32(Console.ReadLine());
 
-        Console.WriteLine("\nDatos actualizados!");
-        // ESTO CAPAZ QUE SE PUEDE HACER CON ALGUN OTRO METODO DEL COMMANDO
+        using (SqlConnection conexion = new(Environment.GetEnvironmentVariable("CONNECTION_STRING")))
+        {
+          SqlCommand comando = conexion.CreateCommand();
+          comando.CommandType = CommandType.Text;
+          comando.CommandText = $"UPDATE Personas SET nombre = '{nombre}', apellido = '{apellido}', edad = {edad} WHERE documento = {dni}";
 
-        try
-        {
-          conexion.Open();
-          comando.ExecuteNonQuery();
-        }
-        catch (Exception ex)
-        {
-          Console.WriteLine(ex.Message);
+          Console.WriteLine("\nDatos actualizados!");
+
+          try
+          {
+            conexion.Open();
+            comando.ExecuteNonQuery();
+          }
+          catch (Exception ex)
+          {
+            Console.WriteLine(ex.Message);
+          }
         }
       }
     }
