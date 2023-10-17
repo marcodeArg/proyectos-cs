@@ -6,52 +6,59 @@ namespace Veterinaria
   {
     private static void Main(string[] args)
     {
-      //HashSet<string> temporales = new();
+      HashSet<string> temporales = new();
 
-      //Veterinaria vet = new(1);
+      ContextoBd contexto = new();
 
-      //using (StreamReader sr = new StreamReader("./Datos/AtencionesMedica.csv"))
-      //{
-      //  while (!sr.EndOfStream)
-      //  {
-      //    string? linea = sr.ReadLine();
+      using (StreamReader sr = new StreamReader("./Datos/AtencionesMedica.csv"))
+      {
+        while (!sr.EndOfStream)
+        {
+          string? linea = sr.ReadLine();
 
-      //    if (temporales.Add(linea))
-      //    {
-      //      string[] datos = linea.Split(",");
-      //      string nombreMasc = datos[0];
-      //      Especie tipo = (Especie)Convert.ToInt32(datos[1]);
-      //      bool esHabitual = Convert.ToBoolean(Convert.ToInt32(datos[2]));
-      //      int codigoMasc = Convert.ToInt32(datos[3]);
-      //      decimal importe = Convert.ToDecimal(datos[4]);
+          if (temporales.Add(linea))
+          {
+            Random rnd = new Random();
 
-      //      Random rnd = new Random();
+            string[] datos = linea.Split(",");
+            string nombreMasc = datos[0];
+            Especie tipo = (Especie)Convert.ToInt32(datos[1]);
+            bool esHabitual = Convert.ToBoolean(Convert.ToInt32(datos[2]));
+            int codigoMasc = Convert.ToInt32(datos[3]);
+            decimal importe = Convert.ToDecimal(datos[4]);
 
-      //      vet.AñadirAtencion(new AtencionMedica(new Mascota(codigoMasc, nombreMasc, tipo, esHabitual), (TipoCobro)rnd.Next(1, 2), importe));
-      //    }
-      //  }
-      //}
+            Mascota masc = new(codigoMasc, nombreMasc, tipo, esHabitual);
+            AtencionMedica am = new(masc, (TipoCobro)rnd.Next(1, 2), importe, new Veterinaria(1, "Veterinaria 1"));
+
+            contexto.AñadirMascota(masc);
+            contexto.AñadirAtencionMedica(am);
+
+          }
+        }
+      }
 
 
 
-      //using (StreamReader sr = new StreamReader("./Datos/AtencionesTienda.csv"))
-      //{
-      //  while (!sr.EndOfStream)
-      //  {
-      //    string? linea = sr.ReadLine();
+      using (StreamReader sr = new StreamReader("./Datos/AtencionesTienda.csv"))
+      {
+        while (!sr.EndOfStream)
+        {
+          string? linea = sr.ReadLine();
 
-      //    if (temporales.Add(linea))
-      //    {
-      //      string[] datos = linea.Split(",");
-      //      decimal importe = decimal.Parse(datos[0].Replace(".", ","));
-      //      decimal descuento = Convert.ToDecimal(datos[1]);
+          if (temporales.Add(linea))
+          {
+            string[] datos = linea.Split(",");
+            decimal importe = decimal.Parse(datos[0].Replace(".", ","));
+            decimal descuento = Convert.ToDecimal(datos[1]);
 
-      //      Random rnd = new Random();
+            Random rnd = new Random();
 
-      //      vet.AñadirAtencion(new AtencionTienda(descuento, importe, (TipoCobro)rnd.Next(1, 2)));
-      //    }
-      //  }
-      //}
+            contexto.AñadirAtencionTienda(new AtencionTienda(descuento, importe, (TipoCobro)rnd.Next(1, 2), new Veterinaria(1, "Veterinaria 1")));
+          }
+        }
+      }
+
+      Console.WriteLine("Datos cargados correctamente");
 
       //Console.Clear();
       //Console.WriteLine("------------------");
@@ -67,9 +74,7 @@ namespace Veterinaria
       //  Console.WriteLine($"Primer gato atendido: {primeraGato}");
       //}
 
-      ContextoBd contexto = new();
-
-      contexto.AñadirMascota(new Mascota("Sofia", Especie.Perro, false));
+      //contexto.AñadirMascota(new Mascota("Sofia", Especie.Perro, false));
 
 
 

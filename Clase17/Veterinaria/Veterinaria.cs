@@ -7,8 +7,9 @@ namespace Veterinaria
 
     private HashSet<Atencion> atenciones;
 
-    public Veterinaria(string razonSocial)
+    public Veterinaria(int codigo, string razonSocial)
     {
+      Codigo = codigo;
       RazonSocial = razonSocial;
       atenciones = new();
     }
