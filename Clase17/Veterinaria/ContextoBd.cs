@@ -412,7 +412,7 @@ namespace Veterinaria
 
       using (SqlConnection conn = new(cadenaConexion))
       {
-        string query = "SELECT at.*, v.razon FROM atencionestienda AS at INNER JOIN veterinarias AS v ON at.codVeterinaria = v.codigo ";
+        string query = "SELECT at.*, v.razon FROM atencionestiendas AS at INNER JOIN veterinarias AS v ON at.codVeterinaria = v.codigo ";
 
         using (SqlCommand comando = new(query, conn))
         {
@@ -446,7 +446,7 @@ namespace Veterinaria
 
       using (SqlConnection conn = new(cadenaConexion))
       {
-        string query = "INSERT INTO atencionesmedicas VALUES(@codTipoCobro, @importe, @descuento, @codVeterinaria)";
+        string query = "INSERT INTO atencionestiendas VALUES(@codTipoCobro, @importe, @descuento, @codVeterinaria)";
 
         using (SqlCommand comando = new(query, conn))
         {
@@ -476,7 +476,7 @@ namespace Veterinaria
 
       using (SqlConnection conn = new(cadenaConexion))
       {
-        string query = "UPDATE atencionestienda SET codTipoCobro = @codTipoCobro, importe = @importe, descuento = @descuento, codVeterinaria = @codVeterinaria WHERE id = @id";
+        string query = "UPDATE atencionestiendas SET codTipoCobro = @codTipoCobro, importe = @importe, descuento = @descuento, codVeterinaria = @codVeterinaria WHERE id = @id";
 
         using (SqlCommand comando = new(query, conn))
         {
@@ -510,7 +510,7 @@ namespace Veterinaria
 
       using (SqlConnection conn = new(cadenaConexion))
       {
-        string query = "DELETE FROM atencionestienda WHERE id = @id";
+        string query = "DELETE FROM atencionestiendas WHERE id = @id";
 
         using (SqlCommand comando = new(query, conn))
         {

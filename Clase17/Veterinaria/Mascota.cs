@@ -17,7 +17,7 @@ namespace Veterinaria
 
     public override string ToString()
     {
-      return $"{Especie} {Nombre}";
+      return $"Especie : {Especie} - Nombre : {Nombre}";
     }
   }
 }
