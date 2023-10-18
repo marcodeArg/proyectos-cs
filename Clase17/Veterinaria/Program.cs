@@ -10,7 +10,6 @@ namespace Veterinaria
     static void Main(string[] args)
     {
 
-
       //using (StreamReader reader = new StreamReader("./Datos/AtencionesMedica.csv"))
       //{
       //  string line;
@@ -64,10 +63,10 @@ namespace Veterinaria
       //}
 
 
-      foreach (var item in contexto.ListarMascotas())
-      {
-        System.Console.WriteLine($"{item.Nombre} - {item.Especie}");
-      }
+      //foreach (var item in contexto.ListarMascotas())
+      //{
+      //  System.Console.WriteLine($"{item.Nombre} - {item.Especie}");
+      //}
 
 
       int opcion;
@@ -77,8 +76,6 @@ namespace Veterinaria
         Console.WriteLine("******** Menú de Opciones ********");
         Console.WriteLine("1. Cargar Mascota");
         Console.WriteLine("2. Cargar Veterinaria");
-        Console.WriteLine("3. Cargar Atención Médica");
-        Console.WriteLine("4. Cargar Atención en Tienda");
         Console.WriteLine("5. Listar Importe total de gatos");
         Console.WriteLine("6. Listar Cantidad de atenciones hasta");
         Console.WriteLine("7. Listar Primera atencion gato");
@@ -96,28 +93,22 @@ namespace Veterinaria
             CargarVeterinaria();
             break;
           case 3:
-            CargarAtencionMedica();
-            break;
-          case 4:
-            CargarAtencionTienda();
-            break;
-          case 5:
             Console.WriteLine($"{vet.ImporteTotalGatos()}");
             break;
-          case 6:
+          case 4:
             CantidadAtencionesHasta();
             break;
-          case 7:
+          case 5:
             PrimeraAtencionGato();
             break;
-          case 8:
+          case 6:
             Console.WriteLine("Saliendo del programa.");
             break;
           default:
             Console.WriteLine("Opción no válida. Por favor, seleccione una opción válida.");
             break;
         }
-      } while (opcion != 8);
+      } while (opcion != 6);
     }
 
     private static void CantidadAtencionesHasta()
@@ -159,18 +150,6 @@ namespace Veterinaria
 
       Veterinaria veterinaria = new Veterinaria(0, razonSocial);
       contexto.AñadirVeterinari(veterinaria);
-    }
-
-    static void CargarAtencionMedica()
-    {
-      Console.Clear();
-      // Completa este método para cargar una atención médica
-    }
-
-    static void CargarAtencionTienda()
-    {
-      Console.Clear();
-      // Completa este método para cargar una atención en tienda
     }
 
   }
