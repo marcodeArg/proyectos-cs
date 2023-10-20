@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Veterinaria;
 
@@ -10,9 +11,11 @@ using Veterinaria;
 namespace ABMCfuncionalidad.Migrations
 {
     [DbContext(typeof(VeterinariaContext))]
-    partial class VeterinariaContextModelSnapshot : ModelSnapshot
+    [Migration("20231020031012_CreacionInicial")]
+    partial class CreacionInicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +31,9 @@ namespace ABMCfuncionalidad.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AtencionMedicaId"));
+
+                    b.Property<int>("IdMascota")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Importe")
                         .HasColumnType("decimal(18,2)");

@@ -8,5 +8,8 @@ namespace Veterinaria
     public bool EsHabitual { get; set; }
     public List<AtencionMedica> Atenciones { get; set; }
 
+
+
+
   }
 }

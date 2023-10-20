@@ -11,8 +11,8 @@ using Veterinaria;
 namespace ABMCfuncionalidad.Migrations
 {
     [DbContext(typeof(VeterinariaContext))]
-    [Migration("20231019135609_CreacionInicial")]
-    partial class CreacionInicial
+    [Migration("20231020031751_ActualizacionRelacionMascota")]
+    partial class ActualizacionRelacionMascota
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,6 @@ namespace ABMCfuncionalidad.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AtencionMedicaId"));
-
-                    b.Property<int>("IdMascota")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Importe")
                         .HasColumnType("decimal(18,2)");
@@ -61,6 +58,9 @@ namespace ABMCfuncionalidad.Migrations
 
                     b.Property<bool>("EsHabitual")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Especie")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
