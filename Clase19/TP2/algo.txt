@@ -1,0 +1,3 @@
+Tengo que tener una carpeta MODELS, despues CONTROLERS / GESTORES, en el program no tengo que tener ningun tipo de using System.Data.
+- Hay que hacer un CRUD para las tablas
+- Estos gestores, deberian ser como las clases de antes, en las que tengo que poner los metodos que puedo usar en otras clases
