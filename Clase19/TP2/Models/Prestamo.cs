@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Biblioteca
 {
+    [Table("Prestamos")]
     public class Prestamo
     {
         public int Id { get; set; }
@@ -16,11 +18,6 @@ namespace Biblioteca
         public int LibroId { get; set; }
 
         public virtual Libro Libro { get; set; }
-
-        public Prestamo()
-        {
-
-        }
 
         public Prestamo(string nomb, int dias, bool devuelto, int idLibro)
         {
