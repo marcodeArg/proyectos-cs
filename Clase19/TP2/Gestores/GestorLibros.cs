@@ -17,59 +17,63 @@ namespace Biblioteca
       return contexto.Libros.ToList();
     }
 
+    public List<Prestamo> ObtenerPrestamos(int id)
+    {
+      var libro = contexto.Libros.Include(l => l.Prestamos).FirstOrDefault(l => l.Id == id);
+
+      if (libro != null)
+      {
+        return libro.Prestamos;
+      }
+      return new();
+    }
+
     public Libro? ObtenerLibro(int id)
     {
-      return contexto.Libros.FirstOrDefault(l => l.Id == id);
+      return contexto.Libros.Include(p => p.Prestamos).FirstOrDefault(l => l.Id == id);
     }
 
     public bool AgregarLibro(Libro l)
     {
-      using (var transaction = contexto.Database.BeginTransaction())
+      try
       {
-        try
-        {
-          contexto.Libros.Add(l);
-          contexto.SaveChanges();
+        contexto.Libros.Add(l);
+        contexto.SaveChanges();
 
-          transaction.Commit();
-          return true;
-        }
-        catch (Exception e)
-        {
-          transaction.Rollback();
-          Console.WriteLine(e.Message);
-          return false;
-        }
+        return true;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+        return false;
       }
     }
 
+
     public bool ActualizarLibro(int id, Libro l)
     {
-      using (var transaction = contexto.Database.BeginTransaction())
+      try
       {
-        try
+        Libro? encontrado = ObtenerLibro(id);
+
+        if (encontrado != null)
         {
-          Libro? encontrado = ObtenerLibro(id);
 
-          if (encontrado != null)
-          {
-            encontrado.Titulo = l.Titulo;
-            encontrado.PrecioReposicion = l.PrecioReposicion;
-            encontrado.BibliotecaId = l.BibliotecaId;
-            encontrado.EstadoId = l.EstadoId;
+          l.Id = encontrado.Id;
+          contexto.Libros.Entry(encontrado).CurrentValues.SetValues(l);
 
-            contexto.SaveChanges();
-            transaction.Commit();
-            return true;
-          }
-
-          return false;
+          contexto.SaveChanges();
+          return true;
         }
-        catch (Exception)
-        {
-          return false;
-        }
+        System.Console.WriteLine("Nola");
+        return false;
       }
+      catch (Exception e)
+      {
+        System.Console.WriteLine(e.Message);
+        return false;
+      }
+
     }
 
     public bool EliminarLibro(int id)
@@ -80,7 +84,13 @@ namespace Biblioteca
 
         if (encontrado != null)
         {
+          foreach (var p in encontrado.Prestamos)
+          {
+            contexto.Prestamos.Remove(p);
+          }
+
           contexto.Libros.Remove(encontrado);
+          contexto.SaveChanges();
           return true;
         }
         return false;

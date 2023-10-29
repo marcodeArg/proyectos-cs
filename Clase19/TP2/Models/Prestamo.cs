@@ -19,13 +19,6 @@ namespace Biblioteca
 
         public virtual Libro Libro { get; set; }
 
-        public Prestamo(string nomb, int dias, bool devuelto, int idLibro)
-        {
-            Nombre = nomb;
-            DiasPrestamo = dias;
-            FueDevuelto = devuelto;
-            LibroId = idLibro;
-        }
     }
 
 }
