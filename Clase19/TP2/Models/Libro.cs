@@ -18,6 +18,11 @@ namespace Biblioteca
         public Estado Estado { get; set; }
 
         public List<Prestamo> Prestamos { get; set; } = new();
+
+        public override string ToString()
+        {
+            return $"Codigo: {Id} - Titulo: {Titulo}";
+        }
     }
 
 }

@@ -12,9 +12,24 @@ namespace Biblioteca
       contexto = new();
     }
 
+    public int CantidadLibros()
+    {
+      return contexto.Libros.Count();
+    }
+
+    public Libro? ObtenerLibro(int id)
+    {
+      return contexto.Libros.Include(p => p.Prestamos).FirstOrDefault(l => l.Id == id);
+    }
+
     public List<Libro> ObtenerLibros()
     {
       return contexto.Libros.ToList();
+    }
+
+    public List<Libro> ObtenerLibros(string nombre)
+    {
+      return contexto.Libros.Where(l => l.Titulo.Contains(nombre)).ToList();
     }
 
     public List<Prestamo> ObtenerPrestamos(int id)
@@ -26,11 +41,6 @@ namespace Biblioteca
         return libro.Prestamos;
       }
       return new();
-    }
-
-    public Libro? ObtenerLibro(int id)
-    {
-      return contexto.Libros.Include(p => p.Prestamos).FirstOrDefault(l => l.Id == id);
     }
 
     public bool AgregarLibro(Libro l)
@@ -100,5 +110,28 @@ namespace Biblioteca
         return false;
       }
     }
+
+    // Metodos para las consultas
+
+    public (int, int, int) CantidadPorEstado()
+    {
+      var query = from l in contexto.Libros
+                  group l by l.EstadoId into g
+                  select new { Estado = g.Key, Cantidad = g.Count() };
+
+      var listaGrupos = query.ToList();
+
+      int cantDisponible = listaGrupos.FirstOrDefault(g => g.Estado == 1)?.Cantidad ?? 0;
+      int cantPrestados = listaGrupos.FirstOrDefault(g => g.Estado == 2)?.Cantidad ?? 0;
+      int cantExtraviados = listaGrupos.FirstOrDefault(g => g.Estado == 3)?.Cantidad ?? 0;
+
+      return (cantDisponible, cantPrestados, cantExtraviados);
+    }
+
+    public decimal TotalExtraviados()
+    {
+      return contexto.Libros.Where(l => l.EstadoId == 3).Sum(l => l.PrecioReposicion);
+    }
+
   }
 }

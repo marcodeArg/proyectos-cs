@@ -1,4 +1,6 @@
-﻿namespace Biblioteca
+﻿using Microsoft.IdentityModel.Tokens;
+
+namespace Biblioteca
 {
   class Programa
   {
@@ -27,6 +29,7 @@
             AdministrarPrestamos();
             break;
           case 3:
+            Consultas();
             break;
           case 4:
             break;
@@ -102,22 +105,31 @@
       Console.Write("\nIngrese el ID del libro a actualizar: ");
       int idLibro = Convert.ToInt16(Console.ReadLine());
 
-      Console.Write("Ingrese el título nuevo: ");
-      string titulo = Console.ReadLine();
-      Console.Write("Ingrese el precio de reposicion nuevo: ");
-      decimal precio = Convert.ToDecimal(Console.ReadLine());
-      Console.Write("Ingrese el estado del libro (1. Disponible | 2. Prestado | 3. Extraviado): ");
-      int estado = Convert.ToInt16(Console.ReadLine());
-
-
-      if (b.ActualizarLibro(idLibro, new Libro { Titulo = titulo, PrecioReposicion = precio, EstadoId = estado }))
+      if (b.ObtenerLibro(idLibro) != null)
       {
-        Console.WriteLine("\nLibro actualizado correctamente");
+        Console.Write("Ingrese el título nuevo: ");
+        string titulo = Console.ReadLine();
+        Console.Write("Ingrese el precio de reposicion nuevo: ");
+        decimal precio = Convert.ToDecimal(Console.ReadLine());
+        Console.Write("Ingrese el estado del libro (1. Disponible | 2. Prestado | 3. Extraviado): ");
+        int estado = Convert.ToInt16(Console.ReadLine());
+
+
+        if (b.ActualizarLibro(idLibro, new Libro { Titulo = titulo, PrecioReposicion = precio, EstadoId = estado }))
+        {
+          Console.WriteLine("\nLibro actualizado correctamente");
+        }
+        else
+        {
+          Console.WriteLine("\nError al actualizar el libro");
+        }
       }
       else
       {
-        Console.WriteLine("\nError al actualizar el libro");
+        Console.WriteLine("\nEl id ingresado no corresponde a ningun libro");
       }
+
+
     }
 
     private static void EliminarLibro()
@@ -145,16 +157,14 @@
     private static void AdministrarPrestamos()
     {
       Console.Clear();
-
       while (true)
       {
         Console.Write("""
 
         1. Agregar Prestamo
         2. Actualizar Prestamo
-        3. Eliminar Prestamo
-        4. Listar todos los prestamos de un libro
-        5. Regresar al menú principal
+        3. Listar todos los prestamos de un libro
+        4. Regresar al menú principal
         Seleccione una opción: 
         """);
         int opPrestamo = Convert.ToInt16(Console.ReadLine());
@@ -168,13 +178,10 @@
             ActualizarPrestamo();
             break;
           case 3:
-            EliminarPrestamo();
-            break;
-          case 4:
             ListarPrestamos();
             break;
-          case 5:
-            break;
+          case 4:
+            return;
           default:
             Console.WriteLine("Ingrese una opcion correcta");
             break;
@@ -211,48 +218,157 @@
       Console.Write("\nIngrese el ID del préstamo a actualizar: ");
       int idPrestamo = Convert.ToInt16(Console.ReadLine());
 
-      Console.Write("Ingrese el nuevo ID del libro a prestar ");
-      int idLibroPrestamo = Convert.ToInt16(Console.ReadLine());
-      Console.Write("Ingrese el nuevo nombre del solicitante: ");
-      string prestatario = Console.ReadLine();
-      Console.Write("Ingrese la cantidad de dias del prestamo: ");
-      int dias = Convert.ToInt16(Console.ReadLine());
-      Console.Write("El libro fue devuelto? (1. Si | 2. No ): ");
-      bool devuelto = Convert.ToInt32(Console.ReadLine()) == 1 ? true : false;
-
-      if (b.ActualizarPrestamo(idPrestamo, new Prestamo { LibroId = idLibroPrestamo, Nombre = prestatario, DiasPrestamo = dias, FueDevuelto = devuelto }))
+      if (b.ObtenerPrestamo(idPrestamo) != null)
       {
-        Console.WriteLine("\nPrestamo actualizado correctamente");
+        Console.Write("Ingrese el nuevo ID del libro a prestar ");
+        int idLibroPrestamo = Convert.ToInt16(Console.ReadLine());
+        Console.Write("Ingrese el nuevo nombre del solicitante: ");
+        string prestatario = Console.ReadLine();
+        Console.Write("Ingrese la cantidad de dias del prestamo: ");
+        int dias = Convert.ToInt16(Console.ReadLine());
+        Console.Write("El libro fue devuelto? (1. Si | 2. No ): ");
+        bool devuelto = Convert.ToInt32(Console.ReadLine()) == 1 ? true : false;
+
+        if (b.ActualizarPrestamo(idPrestamo, new Prestamo { LibroId = idLibroPrestamo, Nombre = prestatario, DiasPrestamo = dias, FueDevuelto = devuelto }))
+        {
+          Console.WriteLine("\nPrestamo actualizado correctamente");
+        }
+        else
+        {
+          Console.WriteLine("\nError al actualizado el Prestamo");
+        }
       }
       else
       {
-        Console.WriteLine("\nError al actualizado el Prestamo");
+        Console.WriteLine("\nEl id ingresado no corresponde a ningun prestamo");
       }
-    }
 
-    private static void EliminarPrestamo()
-    {
-      Console.Write("\nIngrese el ID del prestamo a eliminar: ");
-      int idPrestamoEliminar = Convert.ToInt16(Console.ReadLine());
-      if (b.EliminarLibro(idPrestamoEliminar))
-      {
-        Console.WriteLine("\nPrestamo eliminado correctamente");
-      }
-      else
-      {
-        Console.WriteLine("\nError al eliminar el Prestamo");
-      }
+
     }
 
     private static void ListarPrestamos()
     {
       Console.Write("\nIngrese el ID del libro: ");
-      int idLibroPrestamo = Convert.ToInt16(Console.ReadLine());
+      int idLibro = Convert.ToInt16(Console.ReadLine());
 
-      foreach (var p in b.ListarPrestamos(idLibroPrestamo))
+      if (b.ObtenerLibro(idLibro) != null)
       {
-        Console.WriteLine($"Nombre solicitante : {p.Nombre} - Prestamo de {p.DiasPrestamo} dias - {(p.FueDevuelto ? "Si" : "No")} fue devuelto");
+        Console.WriteLine();
+        foreach (var p in b.ListarPrestamos(idLibro))
+        {
+          Console.WriteLine($"Nombre solicitante : {p.Nombre} - Prestamo de {p.DiasPrestamo} dias - {(p.FueDevuelto ? "Si" : "No")} fue devuelto");
+        }
+      }
+      else
+      {
+        Console.WriteLine("\nEl id ingresado no corresponde a ningun libro");
+      }
+
+
+    }
+
+    private static void Consultas()
+    {
+      Console.Clear();
+      while (true)
+      {
+        Console.Write("""
+
+        1. Cantidad de libros en cada estado
+        2. Sumatoria del precio de reposición de todos los libros extraviados
+        3. Nombre de todos los solicitantes de un libro
+        4. Promedio de veces que fueron prestados los libros de la biblioteca
+        5. Listado de aquellos libros que fueron solicitados más de una vez por el mismo solicitante.
+        6. Regresar al menú principal
+        Seleccione una opción: 
+        """);
+        int opPrestamo = Convert.ToInt16(Console.ReadLine());
+
+        switch (opPrestamo)
+        {
+          case 1:
+            CantidadPorEstado();
+            break;
+          case 2:
+            TotalExtraviados();
+            break;
+          case 3:
+            NombreSolicitantes();
+            break;
+          case 4:
+            PromedioPrestamos();
+            break;
+          case 5:
+            LibrosSolicitadosMasDeUnaVez();
+            break;
+          case 6:
+            return;
+          default:
+            Console.WriteLine("Ingrese una opcion correcta");
+            break;
+        }
       }
     }
+
+    private static void CantidadPorEstado()
+    {
+      (int disponibles, int extraviados, int prestados) estados = b.CantidadPorEstado();
+      Console.WriteLine($"\nCantidad de libros disponibles: {estados.disponibles}");
+      Console.WriteLine($"Cantidad de libros extraviados: {estados.extraviados}");
+      Console.WriteLine($"Cantidad de libros prestados: {estados.prestados}");
+    }
+
+    private static void TotalExtraviados()
+    {
+      Console.WriteLine($"\nSumatoria del precio de reposición de todos los libros extraviados: {b.TotalExtraviados()}");
+    }
+
+    private static void NombreSolicitantes()
+    {
+      Console.Write("\nIngrese el nombre del libro: ");
+      string nombreLib = Console.ReadLine();
+
+      List<Prestamo> prestamos = b.NombreSolicitantes(nombreLib);
+
+      if (prestamos.Count > 0)
+      {
+        foreach (var p in prestamos)
+        {
+          Console.WriteLine($"- {p.Nombre}");
+        }
+      }
+      else
+      {
+        Console.WriteLine("\nNingun solicitante");
+      }
+
+    }
+
+    private static void PromedioPrestamos()
+    {
+      Console.WriteLine($"\nPromedio de prestamos {b.PromedioPrestamos()}");
+    }
+
+    private static void LibrosSolicitadosMasDeUnaVez()
+    {
+      var librosSolicitadosMasDeUnaVez = b.LibrosSolicitadosMasDeUnaVez();
+      Console.WriteLine();
+
+      if (!librosSolicitadosMasDeUnaVez.IsNullOrEmpty())
+      {
+        foreach (var (solicitante, tituloLibro, cantidadPrestamos) in librosSolicitadosMasDeUnaVez)
+        {
+          Console.WriteLine($"Nombre del solicitante: {solicitante}, Título del libro: {tituloLibro}, Cantidad de préstamos: {cantidadPrestamos}");
+        }
+      }
+      else
+      {
+        Console.WriteLine("Nadie ha solicitdo mas de una vez un mismo libro");
+      }
+
+
+    }
+
+
   }
 }

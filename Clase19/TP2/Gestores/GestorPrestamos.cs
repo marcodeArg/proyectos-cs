@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Biblioteca
 {
   public class GestorPrestamos
@@ -10,9 +12,14 @@ namespace Biblioteca
       contexto = new();
     }
 
-    public List<Prestamo> ObtenerPrestamos()
+    public int CantidadPrestamos()
     {
-      return contexto.Prestamos.ToList();
+      return contexto.Prestamos.Count();
+    }
+
+    public List<Prestamo> ObtenerPrestamosConLibros()
+    {
+      return contexto.Prestamos.Include(p => p.Libro).ToList();
     }
 
     public Prestamo? ObtenerPrestamo(int id)
@@ -61,26 +68,5 @@ namespace Biblioteca
       }
 
     }
-
-    public bool EliminarPrestamo(int id)
-    {
-      try
-      {
-        Prestamo? encontrado = ObtenerPrestamo(id);
-
-        if (encontrado != null)
-        {
-          contexto.Prestamos.Remove(encontrado);
-          contexto.SaveChanges();
-          return true;
-        }
-        return false;
-      }
-      catch (Exception)
-      {
-        return false;
-      }
-    }
-
   }
 }
