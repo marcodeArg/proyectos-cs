@@ -1,4 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿
 
 namespace Biblioteca
 {
@@ -12,6 +12,7 @@ namespace Biblioteca
       {
         Console.Clear();
         Console.Write("""
+
         1. Administración de Libros
         2. Administración de Préstamos
         3. Consultas
@@ -32,7 +33,7 @@ namespace Biblioteca
             Consultas();
             break;
           case 4:
-            break;
+            return;
           default:
             Console.WriteLine("Ingrese una opcion correcta");
             break;
@@ -190,8 +191,6 @@ namespace Biblioteca
 
     }
 
-
-
     private static void AgregarPrestamo()
     {
       Console.Write("\nIngrese el ID del libro a prestar: ");
@@ -325,23 +324,41 @@ namespace Biblioteca
 
     private static void NombreSolicitantes()
     {
-      Console.Write("\nIngrese el nombre del libro: ");
-      string nombreLib = Console.ReadLine();
+      Console.Write("\nIngrese el nombre del libro:");
+      var nombreLibro = Console.ReadLine();
 
-      List<Prestamo> prestamos = b.NombreSolicitantes(nombreLib);
+      var libros = b.ObtenerLibros(nombreLibro);
 
-      if (prestamos.Count > 0)
+      if (libros.Count == 0)
       {
-        foreach (var p in prestamos)
+        Console.WriteLine("\nNo se encontraron libros con ese nombre.");
+      }
+      else if (libros.Count == 1)
+      {
+        Console.WriteLine(libros[0]); // Mostrar el libro
+        foreach (var p in b.ListarPrestamos(libros[0].Id))
         {
           Console.WriteLine($"- {p.Nombre}");
         }
       }
       else
       {
-        Console.WriteLine("\nNingun solicitante");
-      }
+        Console.WriteLine("\nSe encontraron varios libros con ese nombre. Por favor, seleccione uno");
 
+        Console.WriteLine();
+        foreach (var item in libros)
+        {
+          Console.WriteLine(item);
+        }
+
+        Console.Write("\nIngrese el id del libro del que desea conocer el nombre de las personas que sacaron los prestamos: ");
+        int idLib = Convert.ToInt32(Console.ReadLine());
+
+        foreach (var p in b.ListarPrestamos(idLib))
+        {
+          Console.WriteLine($"- {p.Nombre}");
+        }
+      }
     }
 
     private static void PromedioPrestamos()
@@ -354,7 +371,7 @@ namespace Biblioteca
       var librosSolicitadosMasDeUnaVez = b.LibrosSolicitadosMasDeUnaVez();
       Console.WriteLine();
 
-      if (!librosSolicitadosMasDeUnaVez.IsNullOrEmpty())
+      if (librosSolicitadosMasDeUnaVez == null)
       {
         foreach (var (solicitante, tituloLibro, cantidadPrestamos) in librosSolicitadosMasDeUnaVez)
         {
@@ -365,10 +382,6 @@ namespace Biblioteca
       {
         Console.WriteLine("Nadie ha solicitdo mas de una vez un mismo libro");
       }
-
-
     }
-
-
   }
 }

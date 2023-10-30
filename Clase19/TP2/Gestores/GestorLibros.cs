@@ -17,21 +17,25 @@ namespace Biblioteca
       return contexto.Libros.Count();
     }
 
+    // Obtener libro por id
     public Libro? ObtenerLibro(int id)
     {
       return contexto.Libros.Include(p => p.Prestamos).FirstOrDefault(l => l.Id == id);
     }
 
+    // Obtener libros
     public List<Libro> ObtenerLibros()
     {
       return contexto.Libros.ToList();
     }
 
+    // Obtener libros por nombre
     public List<Libro> ObtenerLibros(string nombre)
     {
       return contexto.Libros.Where(l => l.Titulo.Contains(nombre)).ToList();
     }
 
+    // Obtener prestamos de un libro
     public List<Prestamo> ObtenerPrestamos(int id)
     {
       var libro = contexto.Libros.Include(l => l.Prestamos).FirstOrDefault(l => l.Id == id);
@@ -58,7 +62,6 @@ namespace Biblioteca
         return false;
       }
     }
-
 
     public bool ActualizarLibro(int id, Libro l)
     {
@@ -111,8 +114,8 @@ namespace Biblioteca
       }
     }
 
-    // Metodos para las consultas
 
+    // Cantidad de libros por estado
     public (int, int, int) CantidadPorEstado()
     {
       var query = from l in contexto.Libros
@@ -128,6 +131,7 @@ namespace Biblioteca
       return (cantDisponible, cantPrestados, cantExtraviados);
     }
 
+    // Sumatoria del precio de reposición de todos los libros extraviados
     public decimal TotalExtraviados()
     {
       return contexto.Libros.Where(l => l.EstadoId == 3).Sum(l => l.PrecioReposicion);

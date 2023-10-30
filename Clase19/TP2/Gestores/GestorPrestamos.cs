@@ -17,11 +17,7 @@ namespace Biblioteca
       return contexto.Prestamos.Count();
     }
 
-    public List<Prestamo> ObtenerPrestamosConLibros()
-    {
-      return contexto.Prestamos.Include(p => p.Libro).ToList();
-    }
-
+    // Obtener prestamo por id
     public Prestamo? ObtenerPrestamo(int id)
     {
       return contexto.Prestamos.Find(id);
