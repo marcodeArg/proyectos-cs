@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models
+namespace Biblioteca.Models
 {
     [Table("Libros")]
     public class Libro
@@ -18,11 +18,6 @@ namespace Models
         public Estado Estado { get; set; }
 
         public List<Prestamo> Prestamos { get; set; } = new();
-
-        public override string ToString()
-        {
-            return $"Codigo: {Id} - Titulo: {Titulo}";
-        }
     }
 
 }
