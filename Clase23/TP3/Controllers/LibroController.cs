@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Biblioteca.Services;
 using Biblioteca.Models;
+using Biblioteca.DTOs;
 
 namespace Biblioteca.Controllers
 {
@@ -17,31 +18,55 @@ namespace Biblioteca.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Libro>> ObtenerLibros()
+        public ActionResult<List<LibroConsultaDTO>> ObtenerLibros([FromQuery] string titulo = null)
         {
-            return Ok(librosService.ObtenerLibros());
+            List<Libro> libros;
+
+            if (string.IsNullOrWhiteSpace(titulo))
+            {
+                libros = librosService.ObtenerLibros();
+            }
+            else
+            {
+                libros = librosService.ObtenerLibros(titulo);
+            }
+
+            if (libros == null || libros.Count == 0)
+            {
+                return NotFound("No se encontraron libros.");
+            }
+
+            var librosDto = libros.Select(libro =>
+                new LibroConsultaDTO(libro.Id, libro.Titulo, libro.PrecioReposicion, libro.Estado.Nombre)).ToList();
+
+            return Ok(librosDto);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Libro> ObtenerLibro(int id)
+        public ActionResult<LibroConsultaDTO> ObtenerLibro(int id)
         {
-            Libro? libro = librosService.ObtenerLibro(id);
-            if (libro != null)
+            var libEncontrado = librosService.ObtenerLibro(id);
+            if (libEncontrado != null)
             {
+                LibroConsultaDTO libro = new(libEncontrado.Id, libEncontrado.Titulo, libEncontrado.PrecioReposicion, libEncontrado.Estado.Nombre);
+
                 return Ok(libro);
             }
             return NotFound();
         }
 
-        [HttpGet("titulos")]
-        public ActionResult<List<Libro>> ObtenerLibros([FromQuery] string titulo)
+        [HttpGet("{id}/solicitantes")]
+        public ActionResult<List<PrestamoConsultaDTO>> ObtenerPrestamos(int id)
         {
-            List<Libro> libros = librosService.ObtenerLibros(titulo);
-            if (libros != null)
+            List<Prestamo> solicitantes = librosService.ObtenerPrestamos(id);
+            if (solicitantes != null)
             {
-                return Ok(libros);
+                List<PrestamoConsultaDTO> listPrestamos = solicitantes.Select(s => new PrestamoConsultaDTO(s.Id, s.Nombre, s.DiasPrestamo, s.FueDevuelto ? "Si" : "No")).ToList();
+
+                return Ok(listPrestamos);
             }
             return NotFound();
         }
+
     }
 }

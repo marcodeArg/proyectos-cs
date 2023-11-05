@@ -9,17 +9,17 @@ namespace Biblioteca.Services
 
         public List<Libro> ObtenerLibros()
         {
-            return contexto.Libros.ToList();
+            return contexto.Libros.Include(x => x.Estado).ToList();
         }
 
         public Libro? ObtenerLibro(int id)
         {
-            return contexto.Libros.FirstOrDefault(l => l.Id == id);
+            return contexto.Libros.Include(x => x.Estado).FirstOrDefault(l => l.Id == id);
         }
 
         public List<Libro> ObtenerLibros(string nombre)
         {
-            return contexto.Libros.Where(l => l.Titulo.Contains(nombre)).ToList();
+            return contexto.Libros.Where(l => l.Titulo.Contains(nombre)).Include(x => x.Estado).ToList();
         }
 
         public List<Prestamo> ObtenerPrestamos(int id)
