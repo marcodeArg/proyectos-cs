@@ -11,13 +11,15 @@ namespace Biblioteca.Controllers
     {
 
         private readonly LibrosService librosService;
+        private readonly PrestamosService prestamosService;
 
-        public LibroController(LibrosService service)
+        public LibroController(LibrosService service, PrestamosService servicePrest)
         {
             librosService = service;
+            prestamosService = servicePrest;
         }
 
-        [HttpGet]
+        [HttpGet] // Usado para obtener todos los libros o filtrar por titulo
         public ActionResult<List<LibroConsultaDTO>> ObtenerLibros([FromQuery] string titulo = null)
         {
             List<Libro> libros;
@@ -55,7 +57,7 @@ namespace Biblioteca.Controllers
             return NotFound();
         }
 
-        [HttpGet("{id}/solicitantes")]
+        [HttpGet("{id}/solicitantes")]  // Obtener los solicitantes de un libro en particular
         public ActionResult<List<PrestamoConsultaDTO>> ObtenerPrestamos(int id)
         {
             List<Prestamo> solicitantes = librosService.ObtenerPrestamos(id);
@@ -67,6 +69,82 @@ namespace Biblioteca.Controllers
             }
             return NotFound();
         }
+
+        [HttpPost]
+        public ActionResult CrearLibro(LibroManipulacionDTO l)
+        {
+            Libro libro = new() { Titulo = l.Titulo, PrecioReposicion = l.PrecioReposicion, EstadoId = l.EstadoId };
+
+            if (librosService.AgregarLibro(libro))
+            {
+                return CreatedAtAction(nameof(ObtenerLibros), new { libro.Id });
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<string> ActualizarLibro(int id, LibroManipulacionDTO l)
+        {
+            Libro libro = new() { Titulo = l.Titulo, PrecioReposicion = l.PrecioReposicion, EstadoId = l.EstadoId };
+
+            if (librosService.ActualizarLibro(id, libro))
+            {
+                return Ok($"Libro {id} actualizado correctamente");
+            }
+
+            return BadRequest();
+
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<string> EliminarLibro(int id)
+        {
+            if (librosService.EliminarLibro(id))
+            {
+                return Ok($"Libro {id} eliminado correctamente");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("informe/estados")]
+        public ActionResult<CantidadEstadoDTO> ObtenerCantidadPorEstado()
+        {
+            var (cantDisponible, cantPrestados, cantExtraviados) = librosService.CantidadPorEstado();
+
+            var resultado = new CantidadEstadoDTO(cantDisponible, cantPrestados, cantExtraviados);
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("informe/total")]
+        public ActionResult<decimal> ObtenerTotalExtraviados()
+        {
+            var totalExtraviados = librosService.TotalExtraviados();
+            return Ok(totalExtraviados);
+        }
+
+        [HttpGet("informe/promedio")]
+        public ActionResult<decimal> ObtenerPromedioPrestamos()
+        {
+            var promedio = (decimal)prestamosService.CantidadPrestamos() / librosService.CantidadLibros();
+            return Ok(promedio);
+        }
+
+        [HttpGet("informe/multiples")]
+        public ActionResult<IEnumerable<SolicitudesLibrosDTO>> GetLibrosSolicitadosMasDeUnaVez()
+        {
+            var resultado = librosService.LibrosSolicitadosMasDeUnaVez();
+            if (resultado.Any())
+            {
+                return Ok(resultado);
+            }
+
+            return NoContent();
+
+        }
+
 
     }
 }
